@@ -1,10 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { AppService } from './app.service';
+import { ImmobiliareService } from './immobiliare/immobiliare.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const service = app.get(AppService);
+  const service = app.get(ImmobiliareService);
   let page = 1;
   let results = [];
   for(let i = 0; i < 10; i++) {

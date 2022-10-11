@@ -4,6 +4,7 @@ import { PuppeteerModule } from 'nest-puppeteer';
 import { ImmobiliareModule } from './immobiliare/immobiliare.module';
 import { ParariusModule } from './pararius/pararius.module';
 import { DatabaseModule } from './database/database.module';
+import { ScraperModule } from './scraper/scraper.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { DatabaseModule } from './database/database.module';
     ImmobiliareModule,
     ParariusModule,
     DatabaseModule,
+    ScraperModule,
   ],
   providers: [AppService],
 })

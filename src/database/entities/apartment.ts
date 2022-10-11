@@ -6,6 +6,11 @@ export class ApartmentEntity {
     id: number;
 
     @Column({
+        unique: true
+    })
+    services_id: string;
+
+    @Column({
         enum: ['pararius'],
         type: 'enum',
     })
@@ -67,6 +72,7 @@ export class ApartmentEntity {
 
     @Column()
     lastSeen: Date;
+
 
     @CreateDateColumn()
     createdAt: Date;

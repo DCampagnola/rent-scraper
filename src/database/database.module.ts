@@ -18,13 +18,14 @@ import * as joi from 'joi';
       imports: [ConfigModule],
       useFactory: async (configService) => ({
         type: configService.get('DATABASE_TYPE'),
-        url: configService.get('DATABASE_URL'),
+        database: configService.get('DATABASE_URL'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: true,
       }),
       inject: [ConfigService],
     }),
     EntitiesModule
-  ]
+  ],
+  exports: [DatabaseService]
 })
 export class DatabaseModule { }

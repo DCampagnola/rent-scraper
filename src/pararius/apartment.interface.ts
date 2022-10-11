@@ -16,8 +16,9 @@ export interface Apartment {
     isInterior: boolean;
     description: string;
     phoneNumber: string;
+    contactUrl: string;
 }
 
-export interface ListApartment extends Omit<Apartment, 'lat' | 'lng' | 'bedrooms' | 'bathrooms' | 'floor' | 'hasBalcony' | 'description' | 'phoneNumber'> {
+export interface ListApartment extends Omit<Apartment, 'lat' | 'lng' | 'bedrooms' | 'bathrooms' | 'floor' | 'hasBalcony' | 'description' | 'phoneNumber' | 'contactUrl'> {
     isNew: boolean;
 }

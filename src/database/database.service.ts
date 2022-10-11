@@ -11,8 +11,12 @@ export class DatabaseService {
         @InjectRepository(ApartmentEntity) private readonly apartmentEntityRepository: Repository<ApartmentEntity>,
     ) {}
 
-    async addApartment(apartment: Apartment): Promise<Apartment> {
+    async addApartment(apartment: Apartment): Promise<ApartmentEntity> {
         const apartmentEntity = new ApartmentEntity();
+        return this.updateApartment(apartmentEntity, apartment);
+    }
+
+    async updateApartment(apartmentEntity: ApartmentEntity, apartment: Apartment): Promise<ApartmentEntity> {
         apartmentEntity.service = 'pararius';
         apartmentEntity.title = apartment.title;
         apartmentEntity.url = apartment.url;
@@ -31,7 +35,18 @@ export class DatabaseService {
         apartmentEntity.description = apartment.description;
         apartmentEntity.phoneNumber = apartment.phoneNumber;
         apartmentEntity.contactUrl = apartment.contactUrl;
-        await this.apartmentEntityRepository.save(apartmentEntity);
-        return apartment;
+        const inserted = await this.apartmentEntityRepository.save(apartmentEntity, {reload: true});
+        return inserted;
+    }
+
+    async upsertApartment(apartment: Apartment): Promise<ApartmentEntity> {
+        const apartmentEntity = await this.apartmentEntityRepository.findOneBy({
+            services_id: apartment.id
+        });
+        if(apartmentEntity) {
+            return this.updateApartment(apartmentEntity, apartment);
+        } else {
+            return this.addApartment(apartment);
+        }
     }
 }

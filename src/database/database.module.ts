@@ -21,6 +21,7 @@ import * as joi from 'joi';
         database: configService.get('DATABASE_URL'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: true,
+        autoSave: true,
       }),
       inject: [ConfigService],
     }),

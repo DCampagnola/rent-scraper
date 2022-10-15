@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ApartmentEntity } from './entities/apartment';
+import { ApartmentEntity } from './entities/apartment.entity';
 import {InjectRepository} from '@nestjs/typeorm'
 import { Repository } from 'typeorm';
 import { Apartment } from 'src/pararius/apartment.interface';
@@ -13,11 +13,13 @@ export class DatabaseService {
 
     async addApartment(apartment: Apartment): Promise<ApartmentEntity> {
         const apartmentEntity = new ApartmentEntity();
+        apartmentEntity.firstSeen = new Date();
         return this.updateApartment(apartmentEntity, apartment);
     }
 
     async updateApartment(apartmentEntity: ApartmentEntity, apartment: Apartment): Promise<ApartmentEntity> {
         apartmentEntity.service = 'pararius';
+        apartmentEntity.services_id = apartment.id;
         apartmentEntity.title = apartment.title;
         apartmentEntity.url = apartment.url;
         apartmentEntity.price = apartment.price;
@@ -35,6 +37,7 @@ export class DatabaseService {
         apartmentEntity.description = apartment.description;
         apartmentEntity.phoneNumber = apartment.phoneNumber;
         apartmentEntity.contactUrl = apartment.contactUrl;
+        apartmentEntity.lastSeen = new Date();
         const inserted = await this.apartmentEntityRepository.save(apartmentEntity, {reload: true});
         return inserted;
     }
@@ -48,5 +51,15 @@ export class DatabaseService {
         } else {
             return this.addApartment(apartment);
         }
+    }
+
+    async apartmentExists(services_id: string, service: 'pararius'): Promise<boolean> {
+        const apartment = await this.apartmentEntityRepository.count({
+            where: {
+                service: service,
+                services_id
+            }
+        });
+        return apartment > 0
     }
 }

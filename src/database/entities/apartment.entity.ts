@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column,CreateDateColumn, UpdateDateColumn} from 'typeorm'
+import {Entity, PrimaryGeneratedColumn, Column,CreateDateColumn, UpdateDateColumn, Index} from 'typeorm'
 
 @Entity()
 export class ApartmentEntity {
@@ -6,15 +6,25 @@ export class ApartmentEntity {
     id: number;
 
     @Column({
-        unique: true
+        unique: true,
+    })
+    @Index({
+        unique: true,
     })
     services_id: string;
 
     @Column({
         enum: ['pararius'],
-        type: 'enum',
+        type: 'varchar',
+        default: 'pararius'
     })
+    @Index()
     service: 'pararius';
+
+    @Column({
+        default: 1
+    })
+    version: '1';
 
     @Column()
     title: string;
@@ -43,13 +53,19 @@ export class ApartmentEntity {
     @Column()
     city: string;
 
-    @Column()
-    bedrooms: number;
+    @Column({
+        nullable: true
+    })
+    bedrooms: number | null;
 
-    @Column()
-    bathrooms: number;
+    @Column({
+        nullable: true
+    })
+    bathrooms: number | null;
 
-    @Column()
+    @Column({
+        nullable: true
+    })
     floor: number;
 
     @Column()
@@ -61,17 +77,23 @@ export class ApartmentEntity {
     @Column()
     description: string;
 
-    @Column()
-    phoneNumber: string;
+    @Column({
+        nullable: true
+    })
+    phoneNumber: string | null;
 
-    @Column()
-    contactUrl: string;
+    @Column({
+        nullable: true
+    })
+    contactUrl: string | null;
 
     @Column()
     firstSeen: Date;
 
-    @Column()
-    lastSeen: Date;
+    @Column({
+        nullable: true
+    })
+    lastSeen: Date | null;
 
 
     @CreateDateColumn()

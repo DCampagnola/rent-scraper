@@ -1,6 +1,6 @@
 ## Description
 
-A scraper for immobiliare.it website
+A scraper for immobiliare.it and pararius website
 
 ## Installation
 
